@@ -20,13 +20,13 @@
     · {{ recommendation.llm_status }}
   </div>
 
-  <div class="row g-4">
+  <div class="row g-4 align-items-start">
     <div class="col-lg-5">
-      <div class="card rounded-xl recommend-panel h-100">
-        <div class="card-body">
-          <h5 class="card-title">내 수업 시간표</h5>
+      <div class="recommend-panel rounded-xl">
+        <div class="recommend-panel-body">
+          <h5 class="recommend-panel-title">내 수업 시간표</h5>
           {% if recommendation.has_schedules %}
-            {% include "includes/weekly_timetable.html" with grid=recommendation.grid read_only=True %}
+            {% include "includes/weekly_timetable.html" with grid=recommendation.grid read_only=True compact=True %}
           {% else %}
             <p class="text-muted mb-3">
               아직 등록된 수업이 없습니다. 시간표를 등록하면 더 정확한 추천을 받을 수 있습니다.

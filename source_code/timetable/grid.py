@@ -30,7 +30,7 @@ def compute_grid_range(schedules):
     return start_hour, end_hour
 
 
-def build_weekly_grid(schedules, force_start=None, force_end=None):
+def build_weekly_grid(schedules, force_start=None, force_end=None, padding_hours=0):
     start_hour, end_hour = compute_grid_range(schedules)
     if force_start is not None:
         start_hour = min(start_hour, force_start)
@@ -39,6 +39,8 @@ def build_weekly_grid(schedules, force_start=None, force_end=None):
 
     if end_hour <= start_hour:
         end_hour = start_hour + 1
+
+    end_hour += max(padding_hours, 0)
 
     total_minutes = (end_hour - start_hour) * 60
     hours = [{"hour": hour, "label": f"{hour:02d}:00"} for hour in range(start_hour, end_hour)]

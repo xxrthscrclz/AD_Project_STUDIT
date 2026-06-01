@@ -7,7 +7,7 @@ from reservations.services import ReservationService
 from rooms.models import Seat
 
 from .models import ClassSchedule
-from .gemini_client import GeminiError, generate_study_commentary, is_gemini_configured
+from .gemini_client import GeminiError, generate_study_commentary, gemini_error_message, is_gemini_configured
 from .slots import find_study_windows
 
 
@@ -186,26 +186,24 @@ def generate_recommendations(user):
         for index, slot in enumerate(slots)
     ]
 
+    llm_status = (
+        "`.env`에 GEMINI_API_KEY를 설정하면 Gemini AI 코멘트를 받을 수 있습니다."
+    )
     if is_gemini_configured():
         try:
             llm_data = generate_study_commentary(schedule_summary, llm_payload)
             result = _apply_llm_commentary(slots, llm_data)
             result.update(_build_base_result(schedules, slots, schedule_summary, grid))
             return result
-        except GeminiError:
-            pass
+        except GeminiError as exc:
+            llm_status = gemini_error_message(exc)
 
     return {
         "summary": _fallback_summary(schedules, slots),
         "study_tips": _fallback_study_tips(schedules),
         "slots": slots,
         "llm_used": False,
-        "llm_status": (
-            "Gemini API 연결 실패 — 시간표 기반 추천을 사용했습니다. "
-            "`.env`의 GEMINI_API_KEY를 확인해 주세요."
-            if is_gemini_configured()
-            else "`.env`에 GEMINI_API_KEY를 설정하면 Gemini AI 코멘트를 받을 수 있습니다."
-        ),
+        "llm_status": llm_status if is_gemini_configured() else "`.env`에 GEMINI_API_KEY를 설정하면 Gemini AI 코멘트를 받을 수 있습니다.",
         **_build_base_result(schedules, slots, schedule_summary, grid),
     }
 
@@ -213,4 +211,4 @@ def generate_recommendations(user):
 def _build_schedule_context(schedules):
     from .grid import build_weekly_grid
 
-    return build_weekly_grid(schedules, force_start=8, force_end=23)
+    return build_weekly_grid(schedules, force_start=8, padding_hours=1)

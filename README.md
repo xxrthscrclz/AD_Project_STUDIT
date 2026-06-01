@@ -70,7 +70,7 @@ AD_Project_StudIt/
 │   ├── manage.py
 │   └── requirements.txt
 ├── report/                   ← 프레임워크 비교 리포트 (20211882.pdf)
-└── video/                    ← 3분 시연 영상
+└── video/                    ← 3분 시연 영상 (20211882.mp4)
 ```
 
 ### 아키텍처 (MVC + Service Layer)
@@ -152,6 +152,7 @@ GEMINI_MODEL=gemini-2.5-flash-lite
 ```
 
 - API 키 발급: https://aistudio.google.com/app/apikey
+- `.env` 수정 후에는 **개발 서버를 재시작**해야 키가 반영됩니다.
 - `GEMINI_API_KEY`가 없어도 예약·시간표 기능은 정상 동작합니다. AI 추천은 기본 추천으로 대체됩니다.
 
 ### 관리자 페이지
@@ -168,6 +169,8 @@ GEMINI_MODEL=gemini-2.5-flash-lite
 5. `/rooms/` → 스터디룸 선택 → 좌석 예약
 6. `/timetable/recommend/` → AI 학습 시간 추천 확인
 7. `/reservations/my/` → 내 예약 확인
+
+---
 
 ## 6. GitHub
 

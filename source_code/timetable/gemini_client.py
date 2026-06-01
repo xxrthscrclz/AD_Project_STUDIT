@@ -93,6 +93,29 @@ def _call_gemini(prompt, model):
     return _parse_json_response(raw)
 
 
+def gemini_error_message(exc):
+    message = str(exc)
+    lowered = message.lower()
+    if "429" in message or "quota" in lowered:
+        return (
+            "Gemini API 할당량 초과 — Google AI Studio에서 새 API 키를 발급하거나 "
+            "잠시 후 다시 시도해 주세요. (https://aistudio.google.com/app/apikey)"
+        )
+    if "401" in message or "403" in message or "api key" in lowered:
+        return (
+            "Gemini API 키가 유효하지 않습니다. "
+            "`.env`의 GEMINI_API_KEY를 AI Studio에서 발급한 키(AIza...)로 교체해 주세요."
+        )
+    if "503" in message or "high demand" in lowered:
+        return "Gemini 서버가 일시적으로 바쁩니다. 잠시 후 다시 추천받기를 눌러 주세요."
+    if is_gemini_configured():
+        return (
+            "Gemini API 연결 실패 — 시간표 기반 추천을 사용했습니다. "
+            "`.env`의 GEMINI_API_KEY를 확인해 주세요."
+        )
+    return "`.env`에 GEMINI_API_KEY를 설정하면 Gemini AI 코멘트를 받을 수 있습니다."
+
+
 def generate_study_commentary(schedule_summary, slot_payloads):
     if not is_gemini_configured():
         raise GeminiError("GEMINI_API_KEY가 설정되지 않았습니다.")
