@@ -1,7 +1,8 @@
 # StudIt — Study It, 공부 환경을 위한 스터디룸 좌석 예약
 
-> **웹서버컴퓨팅 AD 프로젝트** | 팀명: StudIt | 학번: 20211882 | 이름: 박주호  
-> **주제:** 자율주제 — 수업 시간표 + 좌석 현황 기반 스터디룸 예약 + AI 학습 시간 추천  
+> **웹서버컴퓨팅 AD 프로젝트**
+> 팀명: StudIt | 학번: 20211882 | 이름: 박주호
+> **주제:** 수업 시간표 + 좌석 현황 기반 스터디룸 예약 + AI 학습 시간 추천  
 > **스택:** Django 6 + SQLite + Bootstrap 5 + Google Gemini API
 
 ---
@@ -13,46 +14,46 @@
 
 ### 차별화 포인트
 
-| 항목 | 설명 |
-|------|------|
-| 시간표 연동 | 등록한 수업 시간과 겹치는 예약 자동 차단 |
-| 중복 예약 방지 | 동일 좌석·동일 사용자 시간대 중복 예약 불가 |
-| AI 학습 추천 | Gemini API로 공백 시간 분석 + 공부 방법 코멘트 생성 |
-| 서비스 계층 분리 | `ReservationService`에서 비즈니스 로직·예외 처리 |
+| 항목             | 설명                                                  |
+| ---------------- | ----------------------------------------------------- |
+| 시간표 연동      | 등록한 수업 시간과 겹치는 예약 자동 차단              |
+| 중복 예약 방지   | 동일 좌석·동일 사용자 시간대 중복 예약 불가           |
+| AI 학습 추천     | Gemini API로 공백 시간 분석 + 공부 방법 코멘트 생성   |
+| 서비스 계층 분리 | `ReservationService`에서 비즈니스 로직·예외 처리      |
 | 날짜별 좌석 현황 | 스터디룸 상세·예약 페이지에서 시간대별 예약 현황 확인 |
 
 ---
 
 ## 2. 구현 기능 목록
 
-| # | 기능 | 관련 파일 |
-|---|------|-----------|
-| 1 | 회원가입 / 로그인 / 로그아웃 (`django.contrib.auth`) | `accounts/` |
-| 2 | 스터디룸 · 좌석 목록 · 날짜별 현황 조회 | `rooms/` |
-| 3 | 좌석 예약 (날짜·시간 선택, 타임라인 클릭 선택) | `reservations/views.py` |
-| 4 | 시간 중복 예약 방지 (좌석·사용자) | `reservations/services.py` |
-| 5 | 수업 시간표 등록 · 삭제 · 충돌 검사 | `timetable/` |
-| 6 | 내 예약 목록 · 취소 | `reservations/` |
-| 7 | 관리자: 스터디룸·좌석·예약·시간표 관리 | `*/admin.py` |
-| 8 | **AI 학습 시간 추천** (Google Gemini API) | `timetable/gemini_client.py`, `timetable/recommendation.py` |
+| #   | 기능                                                 | 관련 파일                                                   |
+| --- | ---------------------------------------------------- | ----------------------------------------------------------- |
+| 1   | 회원가입 / 로그인 / 로그아웃 (`django.contrib.auth`) | `accounts/`                                                 |
+| 2   | 스터디룸 · 좌석 목록 · 날짜별 현황 조회              | `rooms/`                                                    |
+| 3   | 좌석 예약 (날짜·시간 선택, 타임라인 클릭 선택)       | `reservations/views.py`                                     |
+| 4   | 시간 중복 예약 방지 (좌석·사용자)                    | `reservations/services.py`                                  |
+| 5   | 수업 시간표 등록 · 삭제 · 충돌 검사                  | `timetable/`                                                |
+| 6   | 내 예약 목록 · 취소                                  | `reservations/`                                             |
+| 7   | 관리자: 스터디룸·좌석·예약·시간표 관리               | `*/admin.py`                                                |
+| 8   | **AI 학습 시간 추천** (Google Gemini API)            | `timetable/gemini_client.py`, `timetable/recommendation.py` |
 
 ### 주요 URL
 
-| 경로 | 설명 |
-|------|------|
-| `/` | 홈 |
-| `/accounts/signup/`, `/login/`, `/logout/` | 인증 |
-| `/rooms/` | 스터디룸 목록 |
-| `/rooms/<id>/` | 스터디룸 상세 (날짜별 좌석 현황) |
-| `/reservations/create/<seat_id>/` | 좌석 예약 |
-| `/reservations/my/` | 내 예약 목록 |
-| `/timetable/` | 내 수업 시간표 |
-| `/timetable/recommend/` | AI 학습 시간 추천 |
-| `/admin/` | Django 관리자 |
+| 경로                                       | 설명                             |
+| ------------------------------------------ | -------------------------------- |
+| `/`                                        | 홈                               |
+| `/accounts/signup/`, `/login/`, `/logout/` | 인증                             |
+| `/rooms/`                                  | 스터디룸 목록                    |
+| `/rooms/<id>/`                             | 스터디룸 상세 (날짜별 좌석 현황) |
+| `/reservations/create/<seat_id>/`          | 좌석 예약                        |
+| `/reservations/my/`                        | 내 예약 목록                     |
+| `/timetable/`                              | 내 수업 시간표                   |
+| `/timetable/recommend/`                    | AI 학습 시간 추천                |
+| `/admin/`                                  | Django 관리자                    |
 
 ---
 
-## 3. 제출 ZIP 구조
+## 3. 프로젝트 구조
 
 ```
 AD_Project_StudIt/
@@ -75,12 +76,12 @@ AD_Project_StudIt/
 ### 아키텍처 (MVC + Service Layer)
 
 ```
-[Browser] → URL (config/urls.py)
-         → View (views.py)           ← Request/Response, 폼 처리
-         → Service (services.py)     ← 예약·충돌 검사 비즈니스 로직
-         → Model (models.py)         ← DB 접근
-         → Template                  ← HTML 렌더링
-         → External API (Gemini)     ← AI 코멘트 생성
+[Browser]   → URL (config/urls.py)
+            → View (views.py)           ← Request/Response, 폼 처리
+            → Service (services.py)     ← 예약·충돌 검사 비즈니스 로직
+            → Model (models.py)         ← DB 접근
+            → Template                  ← HTML 렌더링
+            → External API (Gemini)     ← AI 코멘트 생성
 ```
 
 ---
@@ -168,33 +169,7 @@ GEMINI_MODEL=gemini-2.5-flash-lite
 6. `/timetable/recommend/` → AI 학습 시간 추천 확인
 7. `/reservations/my/` → 내 예약 확인
 
----
-
-## 6. 3분 시연 영상 구성
-
-| 시간 | 내용 |
-|------|------|
-| 0:00~0:30 | StudIt 소개 — Django, 시간표 연동, Gemini AI |
-| 0:30~1:00 | 로그인 · 수업 시간표 (주간 그리드) |
-| 1:00~2:00 | 좌석 예약 · 중복/충돌 차단 · 수업 시간 충돌 시연 |
-| 2:00~2:30 | AI 학습 시간 추천 (Gemini 연결 + 코멘트) |
-| 2:30~3:00 | 기술 스택 · `.env` · Admin 요약 |
-
----
-
-## 7. 평가 항목 대응 (자율주제)
-
-| 평가 항목 | 대응 내용 |
-|-----------|-----------|
-| 기능 완성도 | 인증, CRUD, 예약, 취소, 시간표, Admin, AI 추천 |
-| 주제 독창성 | 캠퍼스 라이프 + 학습 보조, 시간표 연동, Gemini API |
-| 기술 활용 | `django.contrib.auth`, Request/Response, 서비스 계층, 예외 처리, SQLite, 외부 API |
-| UI/UX | Bootstrap 5, 주간 시간표 그리드, 타임라인 클릭 예약, 모달 알림 |
-| 코드 구조 | MVC + Service Layer, 앱별 모듈 분리 (`accounts`, `rooms`, `reservations`, `timetable`) |
-
----
-
-## 8. GitHub
+## 6. GitHub
 
 > 저장소 URL: https://github.com/xxrthscrclz/WSC-adProject
 
@@ -209,7 +184,7 @@ python manage.py runserver
 
 ---
 
-## 9. 참고
+## 7. 참고
 
 - Django 공식 문서: https://docs.djangoproject.com/
 - Bootstrap 5: https://getbootstrap.com/
